@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/mystyle.css')}}">
+        <style>
+            .main{
+                margin-top: 30px;
+                text-align: center;  
+            }
+            .main input[type="submit"]{
+                margin-top: 45px;
+                background-color: rgba(10, 33, 51, 0.952);
+                color: aliceblue;
+                border: none;
+                outline: none;
+                font-family: Arial, Helvetica, sans-serif;
+                font-size: 30px;
+                border-radius: 30px;
+                padding: 10px 40px 10px 40px;
+            }
+            .main input[type="submit"]:hover{
+                background-color: yellowgreen;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Home</h1>
+        <ul>
+            <li>
+                <a href="http://localhost:5000/user">Home</a>
+            </li>
+            
+            <li style="float:right">
+                <a href="http://localhost:5000/logout">Logout</a>
+            </li>
+            <li style="float:right"><a href="http://localhost:5000/user/profile">{{username}}</a></li>
+        </ul>
+        {% for message in get_flashed_messages() %}
+            <div class="alert">{{ message }}</div>
+        {% endfor %}
+        <div class="main">
+            <form action="http://localhost:5000/user/mkpref" method="GET">
+                <input type="submit" value="Make Preference">
+            </form>
+            <form action="http://localhost:5000/user/vwpref" method="GET">
+                <input type="submit" value="View Preference">
+            </form>
+            <form action="http://localhost:5000/user/chpref" method="GET">
+                <input type="submit" value="Change Preference">
+            </form>
+        </div>
+    </body>
+</html>

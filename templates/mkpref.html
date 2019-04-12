@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/mystyle.css')}}">
+        <style>
+            li form input[type="submit"]{
+                display: block;
+                color: aliceblue;
+                text-align: center;
+                font-size: 20px;
+                font-family: Arial, Helvetica, sans-serif;
+                text-decoration: none;
+                padding: 10px;
+                outline: none;
+                background: none;
+                border: none;
+            }
+            li form input[type="submit"]:hover{
+                background-color: greenyellow;
+            }
+            .select{
+                text-align: center;
+                margin-top: 20px;
+                font-size: 30px;
+            }
+            .drop{
+                font-size: 25px;
+                background: none;
+                border: 2px solid rgba(10, 33, 51, 0.952);
+                color: aliceblue;
+                outline: none;
+            }
+            .drop:hover{
+                border:2px solid greenyellow;
+            }
+            .drop:active{
+                background-color:rgb(44, 91, 122);
+            }
+            .submit{
+                border: none;
+                background-color: rgba(10, 33, 51, 0.952);
+                color: aliceblue;
+                font-size: 30px;
+                border-radius: 30px;
+                outline: none;
+                transition: 0.25ms;
+                padding-left: 20px;
+                padding-right: 20px;
+                text-align: center;
+                margin-top: 20px;
+            }
+            .submit:hover{
+                background-color: greenyellow;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>{{title}}</h1>
+        <ul>
+            <li>
+                <a href="http://localhost:5000/user">Home</a>
+            </li>
+            <li>
+                <form action="http://localhost:5000/user/mkpref" method="GET">
+                    <input type="submit" value="Make" />
+                </form>
+            </li>
+            <li>
+                <form action="http://localhost:5000/user/vwpref" method="GET">
+                    <input type="submit" value="View" />
+                </form>
+            </li>
+            <li>
+                <form action="http://localhost:5000/user/chpref" method="GET">
+                    <input type="submit" value="Change" />
+                </form>
+            </li>
+            <li style="float:right">
+                <a href="http://localhost:5000/logout">Logout</a>
+            </li>
+            <li style="float:right"><a href="http://localhost:5000/user/profile">{{student.username}}</a></li>
+        </ul>   
+        {% for message in get_flashed_messages() %}
+            <div class="alert">{{ message }}</div>
+        {% endfor %}
+        <form action="http://localhost:5000/user/mkpref" method="POST">
+            {{ form.hidden_tag()}}
+
+            <div class="select">
+                {{form.p1.label}}
+                {{form.p1(class="drop")}}
+            </div>
+            <div class="select">
+                {{form.p2.label}}
+                {{form.p2(class="drop")}}
+            </div>
+            <div class="select">
+                {{form.p3.label}}
+                {{form.p3(class="drop")}}
+            </div>
+            <div class="select">
+                {{form.p4.label}}
+                {{form.p4(class="drop")}}
+            </div>
+            <div class="select">
+                {{form.p5.label}}
+                {{form.p5(class="drop")}}
+            </div>
+            <div class="select">
+                {{form.p6.label}}
+                {{form.p6(class="drop")}}
+            </div>
+            <div class="select">
+                {{form.p7.label}}
+                {{form.p7(class="drop")}}
+            </div>
+            <div class="select">
+                {{form.p8.label}}
+                {{form.p8(class="drop")}}
+            </div>
+            <div class="select">
+                {{form.p9.label}}
+                {{form.p9(class="drop")}}
+            </div>
+            <div style="text-align: center">
+                {{form.submit(class="submit")}}
+            </div>
+        </form>
+    </body>
+</html>
