@@ -23,7 +23,7 @@
             <li style="float:right">
                 <a href="http://localhost:5000/logout">Logout</a>
             </li>
-            <li style="float:right"><a href="http://localhost:5000/user/profile">{{username}}</a></li>
+            <li style="float:right"><a>{{username}}</a></li>
         </ul>
         {% for message in get_flashed_messages() %}
             <div class="alert">{{ message }}</div>

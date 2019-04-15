@@ -1,3 +1,9 @@
+#Form templates are made in the form of classes which inherit from the Form class of WTForms library
+#Various validators used to provide automatic validation in forms
+#validators.Required: Means that field is required to be entered during form submission
+#validators.Email: Checks entered value is in valid email address form
+#validators.EqualTo: Checks the equality of two form fields, used to confirm entered password
+
 from flask_wtf import Form
 from wtforms import TextField, PasswordField, SubmitField, SelectField
 from wtforms import validators, ValidationError

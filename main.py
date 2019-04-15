@@ -1,9 +1,12 @@
+#Main file of website code. Controls the rendering of templates and pages and contains the logic behind the website. 
+#Library used: Flask, WTForms, SQLAlchemy
+
 #Necessary Imports
 from flask import Flask, render_template, request, redirect, url_for, flash
 from forms import RegistrationForm, LoginForm, PreferenceForm
 from flask_sqlalchemy import SQLAlchemy
 from graph import Graph, randomroom
-from passlib.hash import sha256_crypt
+from passlib.hash import sha256_crypt       #Hashing function
 
 #Initial declarations
 app=Flask(__name__)
@@ -46,7 +49,7 @@ def login():
     
     if request.method=="POST":
         for student in UserData.query.all():
-            if(student.username==request.form['username']):
+            if(student.username==request.form['username'].rstrip()):
                 if(sha256_crypt.verify(request.form['password'], student.password)):
                     student.login='True'
                     db.session.commit()
@@ -74,7 +77,7 @@ def register():
         if form.validate()==False:
             error=1
         #Test for unique username
-        if request.form['username'] in list(student.username for student in UserData.query.all()):
+        if request.form['username'].rstrip() in list(student.username for student in UserData.query.all()):
             flash("Username already taken")
             error=1
         #Test for validity of roll number
@@ -91,7 +94,7 @@ def register():
         
         flash("User registered")
         #Adding new student data to database
-        user = UserData(request.form['name'], request.form['username'], 
+        user = UserData(request.form['name'], request.form['username'].rstrip(), 
                         sha256_crypt.encrypt(request.form['password']), request.form['mail'], request.form['roll'])
         db.session.add(user)
         db.session.commit()
@@ -116,25 +119,27 @@ def mkpref_page():
     form=PreferenceForm()
     global data
     if request.method=='POST':
-        for student in UserData.query.all():
-            if student.username==data.username:
-                check_pref=list(request.form['p'+str(i)] for i in range(1,10))
-                if choice_check(check_pref):
+        #Transform preferences into required form to be stored
+        check_pref=list(request.form['p'+str(i)] for i in range(1,10))
+        if choice_check(check_pref):  #Call choice_check to check if all preferences chosen are unique
+            for student in UserData.query.all():    #If successful, update the database
+                if student.username==data.username:
                     student.pref=str(list(request.form['p'+str(i)] for i in range(1,10)))
                     db.session.commit()
                     check_login()
                     flash("Preferences registered")
                     return redirect(url_for('user_page'))
-                else:
-                    flash("Choices not unique")
-                    return render_template('mkpref.html', student=data, form=form, title='Change Preferences')
+        else:
+            flash("Choices not unique")
+            return render_template('mkpref.html', student=data, form=form, title='Change Preferences')
     else:
         if data.pref:
             flash("Choice already submitted once")
             return redirect(url_for('vwpref_page'))
         return render_template('mkpref.html', student=data, form=form, title='Make Preferences')
 
-#
+#Change preference function. Redirects to page for making preferences with suitable alert if no
+# initial preeference registered. Otherwise renders required template.
 @app.route('/user/chpref', methods=['GET', 'POST'])
 def chpref_page():
     form=PreferenceForm()
@@ -203,9 +208,9 @@ class UserData(db.Model):
     password=db.Column(db.String())
     mail=db.Column('e-mail', db.String())
     roll=db.Column('roll_no', db.Integer, primary_key=True)
-    login=db.Column(db.String())
-    pref=db.Column(db.String, nullable=True)
-    froom=db.Column(db.Integer, nullable=True)
+    login=db.Column(db.String())                            #Stored the login status of each account
+    pref=db.Column(db.String, nullable=True)                #Will later store preference list of student
+    froom=db.Column(db.Integer, nullable=True)              #Will store the room number finally allocated
 
     def __init__(self, name, username, password, mail, roll, login='False', pref=''):
         self.name=name
@@ -221,7 +226,8 @@ class UserData(db.Model):
 if (__name__=="__main__"):
     db.create_all()  #Instantiate database
     check_login()    #Check if someone was logged in last time server was closed
-    allocation=1     #Command for admin to change phase of allocation process
+    allocation=0    #Command for admin to change phase of allocation process: 0 for preference filling phase
+                     #                                                         1 for allocation phase
     if(allocation): 
         allocate()
     app.run(debug=True)     #Run application
