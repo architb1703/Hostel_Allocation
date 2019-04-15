@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/mystyle.css')}}">
+        <style>
+            #room{
+                text-align: center;
+                color: aliceblue;
+                font-size: 40px;
+                margin-top: 50px;
+
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Home</h1>
+        <ul>
+            <li>
+                <a href="http://localhost:5000/user">Home</a>
+            </li>
+            
+            <li style="float:right">
+                <a href="http://localhost:5000/logout">Logout</a>
+            </li>
+            <li style="float:right"><a>{{username}}</a></li>
+        </ul>
+        {% for message in get_flashed_messages() %}
+            <div class="alert">{{ message }}</div>
+        {% endfor %}
+        <div id="room">Room number allocated: 10{{ froom }}</div>
+    </body>
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <style>
+            body{
+                background-color:rgb(44, 91, 122);
+                font-family: Arial, Helvetica, sans-serif;
+                color: aliceblue;
+            }
+            h1{
+                text-align: center;
+                font-size: 50px;
+            }
+            .alert{
+                font-size: 20px;
+                background: rgb(255, 255, 138);
+                color: rgb(0, 0, 0);
+                border-radius: 10px;
+                padding-left: 10px;
+                margin-top: 10px;
+                margin-bottom: 10px;
+            }
+            ul {
+                list-style-type: none;
+                margin: 0;
+                padding: 0;
+                overflow: hidden;
+                background-color: rgba(10, 33, 51, 0.952);
+            }
+            li{
+                float: left;
+            }
+            li a{
+                display: block;
+                color: aliceblue;
+                text-align: center;
+                font-size: 20px;
+                font-family: Arial, Helvetica, sans-serif;
+                text-decoration: none;
+                padding: 10px;
+                outline: none;
+            }
+            li a:hover{
+                background-color: yellowgreen;
+            }
+            form{
+                margin-top: 30px;
+                text-align: center;  
+            }
+            form input[type="submit"]{
+                margin-top: 45px;
+                background-color: rgba(10, 33, 51, 0.952);
+                color: aliceblue;
+                border: none;
+                outline: none;
+                font-family: Arial, Helvetica, sans-serif;
+                font-size: 30px;
+                border-radius: 30px;
+                padding: 10px 40px 10px 40px;
+            }
+            form input[type="submit"]:hover{
+                background-color: yellowgreen;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Admin Page</h1>
+        <ul>
+            <li>
+                <a href="http://localhost:5000/admin">Home</a>
+            </li>
+            <li style="float:right">
+                <a href="http://localhost:5000/logout">Logout</a>
+            </li>
+        </ul>
+        {% for message in get_flashed_messages() %}
+            <div class="alert">{{ message }}</div>
+        {% endfor %}
+        <form action="http://localhost:5000/admin" method="POST">
+            <input type="submit" value="Allocate">
+        </form>
+    </body>
+</html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/mystyle.css')}}">
+        <style>
+            form{
+                width: 30%;
+                margin-left: 33%;
+                padding-left: 80px;
+                padding-top: 40px;
+                padding-bottom: 40px; 
+                background-color: rgba(10, 33, 51, 0.952);
+            }
+            .text{
+                color:aliceblue;
+                font-size: 30px;
+                outline: none;
+            }
+            .input{
+                background: none;
+                width: 460px;
+                border: 2px solid rgb(101, 225, 246);
+                border-radius: 30px;
+                color:aliceblue;
+                font-size: 30px;
+                padding-left: 10px;
+                padding-right: 10px;
+                margin-top: 10px;
+                margin-bottom: 10px;
+                outline: none;
+            }
+            .input:focus{
+                border: 2px solid greenyellow;
+            }
+            .submit{
+                border: 2px solid rgb(101, 225, 246);
+                background: none;
+                color: aliceblue;
+                font-size: 30px;
+                border-radius: 30px;
+                outline: none;
+                transition: 0.25ms;
+                padding-left: 20px;
+                padding-right: 20px;
+                margin-top: 10px;
+                margin-left: 160px;
+            }
+            .submit:hover{
+                border: 2px solid greenyellow;
+            }
+            a{  
+                color: aliceblue;
+                margin-left: 37%;
+                text-decoration: none;
+            }
+            a:hover{
+                text-decoration-line: underline;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Login</h1><br>
+
+        {% for message in get_flashed_messages() %}
+            <div class="alert">{{ message }}</div>
+        {% endfor %}
+        
+        <form action="http://localhost:5000/login" method="POST">
+            {{ form.hidden_tag()}}
+
+            {{ form.username.label(class="text") }}<br>
+            {{ form.username(class="input") }}<br>
+
+            {{ form.password.label(class="text") }}<br>
+            {{ form.password(class="input") }}<br>
+
+            {{ form.submit(class="submit") }}<br><br>
+
+            <a href="http://localhost:5000/reg">Register</a>
+        </form>
+    </body>
+</html>

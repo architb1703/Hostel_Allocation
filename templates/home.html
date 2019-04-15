@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/mystyle.css')}}">
+        <style>
+            form{
+                width: 30%;
+                margin-left: 33%;
+                padding: 40px;
+                background-color: rgba(10, 33, 51, 0.952);
+                text-align: center;
+            }
+
+            form input[type="submit"]{
+                border: 2px solid rgb(101, 225, 246);
+                background: none;
+                color: aliceblue;
+                font-size: 30px;
+                border-radius: 40px;
+                width: 500px;
+                padding: 10px;
+                outline: none;
+                transition: 0.25ms;
+            }
+            form input[type="submit"]:hover{
+                border: 2px solid greenyellow;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Hostel Allocation System</h1>
+        {% for message in get_flashed_messages() %}
+            <div class="alert">{{ message }}</div>
+        {% endfor %}
+        <form action="http://localhost:5000/login" method="GET">
+            <input type="submit" value="Login">
+        </form>
+        <form action="http://localhost:5000/reg" method="GET">
+            <input type="submit" value="Register">
+        </form>
+    </body>
+</html>
